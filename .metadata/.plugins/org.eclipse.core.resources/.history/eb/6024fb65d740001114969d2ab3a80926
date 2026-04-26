@@ -1,0 +1,25 @@
+package com.order.dto;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
+public class OrderDTO {
+
+    @NotNull(message = "Customer ID required")
+    private Long customerId;
+
+    @NotNull(message = "Mobile ID required")
+    private Long mobileId;
+
+    @Min(value = 1, message = "Quantity must be at least 1")
+    private int quantity;
+
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+
+    public Long getMobileId() { return mobileId; }
+    public void setMobileId(Long mobileId) { this.mobileId = mobileId; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+}

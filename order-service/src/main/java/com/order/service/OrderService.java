@@ -1,0 +1,42 @@
+package com.order.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.order.dto.OrderDTO;
+import com.order.model.Order;
+import com.order.repository.OrderRepository;
+import com.order.exception.ResourceNotFoundException;
+
+import java.util.List;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository repo;
+
+    public Order createOrder(OrderDTO dto) {
+
+        Order order = new Order();
+        order.setMobileId(dto.getMobileId());
+        order.setQuantity(dto.getQuantity());
+        order.setCustomerName(dto.getCustomerName());
+        order.setStatus("CREATED");
+
+        return repo.save(order);
+    }
+
+    public List<Order> getAllOrders() {
+        return repo.findAll();
+    }
+
+    public Order getOrderById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    }
+
+    public void deleteOrder(Long id) {
+        repo.deleteById(id);
+    }
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- PROJECT DETAILS -->
+    <groupId>com.example</groupId>
+    <artifactId>mobile-store-microservices</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>mobile-store-microservices</name>
+
+    <!-- 🔥 MODULES (VERY IMPORTANT) -->
+    <modules>
+        <module>service-registry</module>
+        <module>api-gateway</module>
+        <module>auth-service</module>
+        <module>customer-service</module>
+        <module>mobile-service</module>
+        <module>order-service</module>
+        <module>billing-service</module>
+    </modules>
+
+    <!-- JAVA VERSION -->
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
+    <!-- 🔥 CENTRAL DEPENDENCY MANAGEMENT -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- SPRING BOOT -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>4.0.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 🔥 SPRING CLOUD (FIXES YOUR ERROR) -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2025.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- BUILD -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!-- SPRING BOOT PLUGIN -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>4.0.5</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
