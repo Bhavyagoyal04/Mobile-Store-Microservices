@@ -5,49 +5,29 @@ import jakarta.validation.constraints.NotBlank;
 
 public class MobileDTO {
 
-    @NotBlank
+    @NotBlank(message = "Brand is required")
     private String brand;
 
-	@NotBlank
+    @NotBlank(message = "Model is required")
     private String model;
 
-    @Min(1)
+    @Min(value = 1, message = "Price must be at least 1")
     private int price;
 
-    @Min(0)
+    @Min(value = 0, message = "Stock cannot be negative")
     private int stock;
 
     // getters & setters
-    public String getBrand() {
-		return brand;
-	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
 
-	public String getModel() {
-		return model;
-	}
+    public String getModel() { return model; }
+    public void setModel(String model) { this.model = model; }
 
-	public void setModel(String model) {
-		this.model = model;
-	}
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-
+    public int getStock() { return stock; }
+    public void setStock(int stock) { this.stock = stock; }
 }

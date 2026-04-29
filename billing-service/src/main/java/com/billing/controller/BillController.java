@@ -3,6 +3,7 @@ package com.billing.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.billing.model.Bill;
@@ -15,19 +16,20 @@ public class BillController {
     @Autowired
     private BillService service;
 
-    // Create Bill
-    @PostMapping("/{orderId}")
+    // 🔥 CREATE BILL (ADMIN ONLY)
+    @PostMapping("/order/{orderId}")
+    @ResponseStatus(HttpStatus.CREATED)
     public Bill createBill(@PathVariable Long orderId) {
         return service.createBill(orderId);
     }
 
-    // Get Bill by ID
+    // ✅ GET BILL BY ID
     @GetMapping("/{id}")
     public Bill getBill(@PathVariable Long id) {
         return service.getBillById(id);
     }
 
-    // Get All Bills
+    // ✅ GET ALL BILLS
     @GetMapping
     public List<Bill> getAllBills() {
         return service.getAllBills();

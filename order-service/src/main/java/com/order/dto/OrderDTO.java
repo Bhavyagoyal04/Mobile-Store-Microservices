@@ -1,26 +1,45 @@
 package com.order.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderDTO {
 
     @NotNull(message = "Mobile ID required")
     private Long mobileId;
 
-    @Min(value = 1, message = "Quantity must be at least 1")
+    @Positive(message = "Quantity must be greater than 0")
     private int quantity;
 
-    @NotBlank(message = "Customer name required")
-    private String customerName;
+    @NotNull(message = "Customer ID required")
+    private Long customerId;
 
-    public Long getMobileId() { return mobileId; }
-    public void setMobileId(Long mobileId) { this.mobileId = mobileId; }
+    // Getters & Setters
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public Long getMobileId() {
+        return mobileId;
+    }
 
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public void setMobileId(Long mobileId) {
+        this.mobileId = mobileId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 }

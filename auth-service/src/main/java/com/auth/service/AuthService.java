@@ -1,12 +1,15 @@
 package com.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth.dto.RegisterRequest;
 import com.auth.model.User;
 import com.auth.repository.UserRepository;
 import com.auth.exception.BadRequestException;
 import com.auth.exception.ResourceNotFoundException;
+import com.auth.security.JwtUtil;
 
 @Service
 public class AuthService {
@@ -14,19 +17,49 @@ public class AuthService {
     @Autowired
     private UserRepository repo;
 
-    public User register(User user) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    // ✅ REGISTER (FIXED)
+    public User register(RegisterRequest req) {
+
+        if (repo.existsByUsername(req.getUsername())) {
+            throw new BadRequestException("Username already exists");
+        }
+
+        User user = new User();
+        user.setUsername(req.getUsername());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+
+        // ✅ HARD FIX (avoid null / crash)
+        String role = req.getRole();
+
+        if (role == null || role.isEmpty()) {
+            role = "ADMIN";
+        }
+
+//        // normalize role
+//        if (!role.startsWith("ROLE_")) {
+//            role = "ROLE_" + role;
+//        }
+
+        user.setRole(role);
+
         return repo.save(user);
     }
-
-    public User login(String username, String password) {
+    // ✅ LOGIN
+    public String login(String username, String password) {
 
         User user = repo.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadRequestException("Invalid password");
         }
 
-        return user;
+        return jwtUtil.generateToken(user.getUsername(), user.getRole());
     }
 }

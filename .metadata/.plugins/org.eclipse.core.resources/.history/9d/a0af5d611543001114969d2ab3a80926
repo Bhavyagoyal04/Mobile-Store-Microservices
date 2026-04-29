@@ -1,0 +1,56 @@
+package com.auth.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.auth.model.User;
+import com.auth.repository.UserRepository;
+import com.auth.exception.BadRequestException;
+import com.auth.exception.ResourceNotFoundException;
+import com.auth.security.JwtUtil;
+
+@Service
+public class AuthService {
+
+    @Autowired
+    private UserRepository repo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    // REGISTER
+    public User register(User user) {
+
+        // Check if username exists
+        if (repo.existsByUsername(user.getUsername())) {
+            throw new BadRequestException("Username already exists");
+        }
+
+        // Encrypt password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Assign ADMIN role (your requirement)
+        user.setRole("ROLE_ADMIN");
+
+        return repo.save(user);
+    }
+
+    // LOGIN
+    public String login(String username, String password) {
+
+        User user = repo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // Compare encrypted password
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadRequestException("Invalid password");
+        }
+
+        // Generate JWT with role
+        return jwtUtil.generateToken(user.getUsername(), user.getRole());
+    }
+}

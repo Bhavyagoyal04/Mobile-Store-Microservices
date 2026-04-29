@@ -1,6 +1,7 @@
 package com.order.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.order.dto.OrderDTO;
@@ -17,24 +18,29 @@ public class OrderController {
     @Autowired
     private OrderService service;
 
+    // 🔥 ADMIN ONLY
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(@Valid @RequestBody OrderDTO dto) {
         return service.createOrder(dto);
     }
 
+    // ✅ GET ALL
     @GetMapping
     public List<Order> getAllOrders() {
         return service.getAllOrders();
     }
 
+    // ✅ GET BY ID
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable Long id) {
         return service.getOrderById(id);
     }
 
+    // 🔥 ADMIN ONLY
     @DeleteMapping("/{id}")
-    public String deleteOrder(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable Long id) {
         service.deleteOrder(id);
-        return "Order deleted successfully";
     }
 }

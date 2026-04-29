@@ -1,0 +1,17 @@
+# =========================
+# BASIC CONFIG
+# =========================
+spring.application.name=service-registry
+server.port=8761
+
+# =========================
+# EUREKA SERVER CONFIG
+# =========================
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+# =========================
+# OPTIONAL (CLEAN LOGS)
+# =========================
+logging.level.com.netflix.eureka=OFF
+logging.level.com.netflix.discovery=OFF

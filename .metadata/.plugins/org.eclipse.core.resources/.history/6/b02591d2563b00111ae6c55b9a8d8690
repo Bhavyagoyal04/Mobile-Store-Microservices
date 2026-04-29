@@ -1,5 +1,0 @@
-package com.billing.exception;
-
-public class BadRequestException {
-
-}

@@ -1,0 +1,70 @@
+package com.order.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.order.dto.OrderDTO;
+import com.order.model.Order;
+import com.order.repository.OrderRepository;
+import com.order.exception.ResourceNotFoundException;
+import com.order.exception.BadRequestException;
+
+import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository repo;
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
+    public Order createOrder(OrderDTO dto) {
+
+        // 🔥 Call Customer Service using customerId
+        Map<String, Object> customer = webClientBuilder.build()
+                .get()
+                .uri("http://customer-service/customers/" + dto.getCustomerId())
+                .retrieve()
+                .onStatus(status -> status.is4xxClientError(),
+                        response -> Mono.error(new BadRequestException("Customer not found")))
+                .bodyToMono(Map.class)
+                .block();
+
+        // Extra safety check
+        if (customer == null) {
+            throw new BadRequestException("Customer does not exist");
+        }
+
+        // ✅ Extract customer name from response
+        String customerName = (String) customer.get("name");
+
+        // ✅ Create order
+        Order order = new Order();
+        order.setMobileId(dto.getMobileId());
+        order.setQuantity(dto.getQuantity());
+        order.setCustomerId(dto.getCustomerId());   // 🔥 important
+        order.setCustomerName(customerName);        // 🔥 for UI display
+        order.setStatus("CREATED");
+
+        return repo.save(order);
+    }
+
+    public List<Order> getAllOrders() {
+        return repo.findAll();
+    }
+
+    public Order getOrderById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    }
+
+    public void deleteOrder(Long id) {
+        repo.deleteById(id);
+    }
+}
