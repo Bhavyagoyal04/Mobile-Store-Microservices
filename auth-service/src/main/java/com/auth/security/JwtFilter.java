@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ Allow public endpoints
+        // Allow public endpoints
         if (path.startsWith("/auth")) {
             chain.doFilter(request, response);
             return;
@@ -35,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
-        // ❌ No token → reject immediately
+        // No token → reject immediately
         if (header == null || !header.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;

@@ -96,7 +96,6 @@ export default function Register() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={ROLES.ADMIN}>Admin</SelectItem>
-                  <SelectItem value={ROLES.USER}>User</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -25,19 +25,19 @@ public class OrderService {
     private WebClient.Builder webClientBuilder;
 
     // =========================
-    // 🔥 CREATE ORDER
+    // CREATE ORDER
     // =========================
     public Order createOrder(OrderDTO dto) {
 
         WebClient client = webClientBuilder.build();
 
-        // ✅ Validate quantity
+        // Validate quantity
         if (dto.getQuantity() <= 0) {
             throw new BadRequestException("Quantity must be greater than 0");
         }
 
         // =========================
-        // ✅ 1. Validate Customer
+        // 1. Validate Customer
         // =========================
         Map<String, Object> customer = client.get()
                 .uri("http://customer-service/customers/" + dto.getCustomerId())
@@ -54,7 +54,7 @@ public class OrderService {
         String customerName = (String) customer.get("name");
 
         // =========================
-        // ✅ 2. Validate Mobile
+        // 2. Validate Mobile
         // =========================
         Map<String, Object> mobile = client.get()
                 .uri("http://mobile-service/mobiles/" + dto.getMobileId())
@@ -70,13 +70,13 @@ public class OrderService {
 
         int stock = (Integer) mobile.get("stock");
 
-        // ❌ Prevent out-of-stock order
+        // Prevent out-of-stock order
         if (dto.getQuantity() > stock) {
             throw new BadRequestException("Not enough stock available");
         }
 
         // =========================
-        // 🔥 3. Reduce Stock FIRST
+        // 3. Reduce Stock FIRST
         // =========================
         client.put()
                 .uri("http://mobile-service/mobiles/reduce-stock?mobileId="
@@ -88,7 +88,7 @@ public class OrderService {
                 .block();
 
         // =========================
-        // ✅ 4. Create Order
+        // 4. Create Order
         // =========================
         Order order = new Order();
         order.setMobileId(dto.getMobileId());
@@ -101,14 +101,14 @@ public class OrderService {
     }
 
     // =========================
-    // ✅ GET ALL ORDERS
+    // GET ALL ORDERS
     // =========================
     public List<Order> getAllOrders() {
         return repo.findAll();
     }
 
     // =========================
-    // ✅ GET ORDER BY ID
+    // GET ORDER BY ID
     // =========================
     public Order getOrderById(Long id) {
         return repo.findById(id)
@@ -116,7 +116,7 @@ public class OrderService {
     }
 
     // =========================
-    // ✅ DELETE ORDER
+    // DELETE ORDER
     // =========================
     public void deleteOrder(Long id) {
 

@@ -18,40 +18,40 @@ public class MobileController {
     @Autowired
     private MobileService service;
 
-    // ✅ CREATE
+    // CREATE
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mobile addMobile(@Valid @RequestBody MobileDTO dto) {
         return service.addMobile(dto);
     }
 
-    // ✅ GET ALL
+    // GET ALL
     @GetMapping
     public List<Mobile> getAllMobiles() {
         return service.getAllMobiles();
     }
 
-    // ✅ GET BY ID
+    // GET BY ID
     @GetMapping("/{id}")
     public Mobile getMobile(@PathVariable Long id) {
         return service.getMobileById(id);
     }
 
-    // ✅ UPDATE
+    // UPDATE
     @PutMapping("/{id}")
     public Mobile updateMobile(@PathVariable Long id,
                                @Valid @RequestBody Mobile mobile) {
         return service.updateMobile(id, mobile);
     }
 
-    // ✅ DELETE
+    // DELETE
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMobile(@PathVariable Long id) {
         service.deleteMobile(id);
     }
 
-    // 🔥 CRITICAL FOR ORDER SERVICE
+    // CRITICAL FOR ORDER SERVICE
     @PutMapping("/reduce-stock")
     public void reduceStock(@RequestParam Long mobileId,
                             @RequestParam int quantity) {

@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { authApi, tokenStore } from "./api";
 
 const AuthContext = createContext(null);
@@ -24,17 +23,16 @@ function decodeRole(token) {
 }
 
 export function AuthProvider({ children }) {
-  // ✅ Eagerly read from localStorage so token is never null on refresh.
-  const [token, setToken] = useState(() => tokenStore.get());
-  const [username, setUsername] = useState(() => localStorage.getItem(USER_KEY));
-  const [role, setRole] = useState(() => {
-    const stored = localStorage.getItem(ROLE_KEY);
-    if (stored) return stored;
-    const t = tokenStore.get();
-    return t ? decodeRole(t) : null;
-  });
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [role, setRole] = useState(null);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const t = tokenStore.get();
+    setToken(t);
+    setUsername(localStorage.getItem(USER_KEY));
+    setRole(localStorage.getItem(ROLE_KEY) || (t ? decodeRole(t) : null));
+  }, []);
 
   const login = useCallback(async (u, p) => {
     const res = await authApi.login(u, p);
@@ -70,21 +68,6 @@ export function AuthProvider({ children }) {
     setUsername(null);
     setRole(null);
   }, []);
-
-  // ✅ Handle expired / invalid token: clear state and redirect to login.
-  useEffect(() => {
-    const handleUnauthorized = () => {
-      tokenStore.clear();
-      localStorage.removeItem(USER_KEY);
-      localStorage.removeItem(ROLE_KEY);
-      setToken(null);
-      setUsername(null);
-      setRole(null);
-      navigate("/login", { replace: true });
-    };
-    window.addEventListener("auth:unauthorized", handleUnauthorized);
-    return () => window.removeEventListener("auth:unauthorized", handleUnauthorized);
-  }, [navigate]);
 
   const value = useMemo(
     () => ({

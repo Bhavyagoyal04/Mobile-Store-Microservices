@@ -20,12 +20,12 @@ public class JwtFilter implements GlobalFilter {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        // ✅ Public endpoints
+        // Public endpoints
         if (path.startsWith("/auth")) {
             return chain.filter(exchange);
         }
 
-        // ✅ Allow CORS Preflight (OPTIONS) requests
+        // Allow CORS Preflight (OPTIONS) requests
         if (exchange.getRequest().getMethod() == org.springframework.http.HttpMethod.OPTIONS) {
             return chain.filter(exchange);
         }

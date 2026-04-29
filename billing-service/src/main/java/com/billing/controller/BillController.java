@@ -16,20 +16,20 @@ public class BillController {
     @Autowired
     private BillService service;
 
-    // 🔥 CREATE BILL (ADMIN ONLY)
+    // CREATE BILL (ADMIN ONLY)
     @PostMapping("/order/{orderId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Bill createBill(@PathVariable Long orderId) {
         return service.createBill(orderId);
     }
 
-    // ✅ GET BILL BY ID
+    // GET BILL BY ID
     @GetMapping("/{id}")
     public Bill getBill(@PathVariable Long id) {
         return service.getBillById(id);
     }
 
-    // ✅ GET ALL BILLS
+    // GET ALL BILLS
     @GetMapping
     public List<Bill> getAllBills() {
         return service.getAllBills();

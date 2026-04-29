@@ -12,7 +12,7 @@ public class Bill {
     private Long billId;
 
     @Column(nullable = false)
-    private Long orderId; // 🔥 IMPORTANT
+    private Long orderId; // IMPORTANT
 
     @Column(nullable = false)
     private String customerName;
@@ -24,14 +24,14 @@ public class Bill {
     private int quantity;
 
     @Column(nullable = false)
-    private double totalAmount; // ⚠️ can keep double for now, but BigDecimal is better
+    private double totalAmount; // can keep double for now, but BigDecimal is better
 
     @Column(nullable = false)
     private String status;
 
     private LocalDateTime createdAt;
 
-    // 🔥 Auto set before save
+    // Auto set before save
     @PrePersist
     public void onCreate() {
         if (status == null) {

@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    // ✅ Find customer by phone
+    // Find customer by phone
     Optional<Customer> findByPhone(String phone);
 
-    // ✅ Check duplicate phone
+    // Check duplicate phone
     boolean existsByPhone(String phone);
 }

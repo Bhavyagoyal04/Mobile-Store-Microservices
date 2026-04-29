@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 🔴 404
+    // 404
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFound(ResourceNotFoundException ex) {
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // 🔴 400
+    // 400
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequest(BadRequestException ex) {
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // 🔴 Validation errors (VERY GOOD ADDITION)
+    // Validation errors (VERY GOOD ADDITION)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(MethodArgumentNotValidException ex) {
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
         );
     }
 
-    // 🔴 500
+    // 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleGeneral(Exception ex) {

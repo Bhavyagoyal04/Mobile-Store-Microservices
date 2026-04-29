@@ -17,15 +17,15 @@ public class MobileService {
     @Autowired
     private MobileRepository repo;
 
-    // ✅ ADD MOBILE
+    // ADD MOBILE
     public Mobile addMobile(MobileDTO dto) {
 
-        // 🔴 Prevent duplicate mobile
+        // Prevent duplicate mobile
         if (repo.existsByBrandAndModel(dto.getBrand(), dto.getModel())) {
             throw new BadRequestException("Mobile already exists");
         }
 
-        // 🔴 Validate stock
+        // Validate stock
         if (dto.getStock() < 0) {
             throw new BadRequestException("Stock cannot be negative");
         }
@@ -39,18 +39,18 @@ public class MobileService {
         return repo.save(m);
     }
 
-    // ✅ GET ALL
+    // GET ALL
     public List<Mobile> getAllMobiles() {
         return repo.findAll();
     }
 
-    // ✅ GET BY ID
+    // GET BY ID
     public Mobile getMobileById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Mobile not found"));
     }
 
-    // ✅ UPDATE
+    // UPDATE
     public Mobile updateMobile(Long id, Mobile newMobile) {
 
         Mobile m = getMobileById(id);
@@ -67,7 +67,7 @@ public class MobileService {
         return repo.save(m);
     }
 
-    // ✅ DELETE
+    // DELETE
     public void deleteMobile(Long id) {
         if (!repo.existsById(id)) {
             throw new ResourceNotFoundException("Mobile not found");
@@ -75,7 +75,7 @@ public class MobileService {
         repo.deleteById(id);
     }
 
-    // 🔥 CRITICAL METHOD (USED BY ORDER SERVICE)
+    // CRITICAL METHOD (USED BY ORDER SERVICE)
     public void reduceStock(Long mobileId, int quantity) {
 
         Mobile mobile = getMobileById(mobileId);

@@ -24,13 +24,13 @@ public class BillService {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    // 🔥 CREATE BILL
+    // CREATE BILL
     public Bill createBill(Long orderId) {
 
         WebClient client = webClientBuilder.build();
 
         // =========================
-        // ✅ Fetch Order
+        // Fetch Order
         // =========================
         Order order = client.get()
                 .uri("http://order-service/orders/" + orderId)
@@ -45,7 +45,7 @@ public class BillService {
         }
 
         // =========================
-        // ✅ Fetch Mobile
+        // Fetch Mobile
         // =========================
         Mobile mobile = client.get()
                 .uri("http://mobile-service/mobiles/" + order.getMobileId())
@@ -60,15 +60,15 @@ public class BillService {
         }
 
         // =========================
-        // ✅ Calculate Bill
+        // Calculate Bill
         // =========================
         double total = mobile.getPrice() * order.getQuantity();
 
         // =========================
-        // ✅ Create Bill
+        // Create Bill
         // =========================
         Bill bill = new Bill();
-        bill.setOrderId(orderId); // 🔥 IMPORTANT
+        bill.setOrderId(orderId); // IMPORTANT
         bill.setCustomerName(order.getCustomerName());
         bill.setMobileId(order.getMobileId());
         bill.setQuantity(order.getQuantity());
@@ -78,13 +78,13 @@ public class BillService {
         return billRepo.save(bill);
     }
 
-    // ✅ GET BY ID
+    // GET BY ID
     public Bill getBillById(Long id) {
         return billRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Bill not found"));
     }
 
-    // ✅ GET ALL
+    // GET ALL
     public List<Bill> getAllBills() {
         return billRepo.findAll();
     }

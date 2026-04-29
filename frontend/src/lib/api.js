@@ -58,11 +58,8 @@ export async function api(path, options = {}) {
   }
 
   if (res.status === 401) {
-    // Dispatch a global event so AuthProvider can do a clean logout + redirect.
-    // Do NOT clear the token here — avoid cascading failures if multiple
-    // requests are in-flight simultaneously.
-    window.dispatchEvent(new CustomEvent("auth:unauthorized"));
-    throw new ApiError("Session expired — please log in again.", 401);
+    tokenStore.clear();
+    throw new ApiError("Unauthorized — please log in again.", 401);
   }
   if (!res.ok) {
     let msg = `Request failed (${res.status})`;

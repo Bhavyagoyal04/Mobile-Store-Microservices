@@ -31,7 +31,7 @@ public class Order {
 
     private LocalDateTime createdAt;
 
-    // 🔥 Automatically set before saving
+    // Automatically set before saving
     @PrePersist
     public void onCreate() {
         if (status == null) {

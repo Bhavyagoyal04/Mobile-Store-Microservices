@@ -17,26 +17,26 @@ public class CustomerController {
     @Autowired
     private CustomerService service;
 
-    // ✅ CREATE (ADMIN only later)
+    // CREATE (ADMIN only later)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Customer addCustomer(@Valid @RequestBody Customer customer) {
         return service.addCustomer(customer);
     }
 
-    // ✅ GET ALL
+    // GET ALL
     @GetMapping
     public List<Customer> getAllCustomers() {
         return service.getAllCustomers();
     }
 
-    // ✅ GET BY ID
+    // GET BY ID
     @GetMapping("/{id}")
     public Customer getCustomer(@PathVariable Long id) {
         return service.getCustomerById(id);
     }
 
-    // ✅ DELETE
+    // DELETE
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable Long id) {

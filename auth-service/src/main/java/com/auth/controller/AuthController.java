@@ -17,13 +17,13 @@ public class AuthController {
     @Autowired
     private AuthService service;
 
-    // ✅ REGISTER (FIXED)
+    // REGISTER (FIXED)
     @PostMapping("/register")
     public User register(@RequestBody com.auth.dto.RegisterRequest req) {
         return service.register(req);
     }
 
-    // ✅ LOGIN
+    // LOGIN
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody User user) {
 

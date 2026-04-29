@@ -7,19 +7,9 @@ import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 import "./index.css";
 
-import { ApiError } from "./lib/api.js";
-
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      // Don't retry on 401 — the token is invalid/expired and retrying just
-      // fires auth:unauthorized twice, causing a double-redirect to /login.
-      retry: (failureCount, error) => {
-        if (error instanceof ApiError && error.status === 401) return false;
-        return failureCount < 1;
-      },
-      staleTime: 30_000,
-    },
+    queries: { retry: 1, staleTime: 30_000 },
   },
 });
 

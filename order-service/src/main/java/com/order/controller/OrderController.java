@@ -18,26 +18,26 @@ public class OrderController {
     @Autowired
     private OrderService service;
 
-    // 🔥 ADMIN ONLY
+    // ADMIN ONLY
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(@Valid @RequestBody OrderDTO dto) {
         return service.createOrder(dto);
     }
 
-    // ✅ GET ALL
+    // GET ALL
     @GetMapping
     public List<Order> getAllOrders() {
         return service.getAllOrders();
     }
 
-    // ✅ GET BY ID
+    // GET BY ID
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable Long id) {
         return service.getOrderById(id);
     }
 
-    // 🔥 ADMIN ONLY
+    // ADMIN ONLY
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable Long id) {

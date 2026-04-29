@@ -23,7 +23,7 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // ✅ REGISTER (FIXED)
+    // REGISTER (FIXED)
     public User register(RegisterRequest req) {
 
         if (repo.existsByUsername(req.getUsername())) {
@@ -34,7 +34,7 @@ public class AuthService {
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
 
-        // ✅ HARD FIX (avoid null / crash)
+        // HARD FIX (avoid null / crash)
         String role = req.getRole();
 
         if (role == null || role.isEmpty()) {
@@ -50,7 +50,7 @@ public class AuthService {
 
         return repo.save(user);
     }
-    // ✅ LOGIN
+    // LOGIN
     public String login(String username, String password) {
 
         User user = repo.findByUsername(username)

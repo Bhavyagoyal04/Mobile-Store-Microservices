@@ -12,13 +12,13 @@ import java.time.Duration;
 public class WebClientConfig {
 
     @Bean
-    @LoadBalanced  // 🔥 Enables service discovery
+    @LoadBalanced  // Enables service discovery
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder()
-                // ✅ Default header
+                // Default header
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/json")
 
-                // 🔥 Timeout (VERY IMPORTANT)
+                // Timeout (VERY IMPORTANT)
                 .clientConnector(
                         new org.springframework.http.client.reactive.ReactorClientHttpConnector(
                                 reactor.netty.http.client.HttpClient.create()

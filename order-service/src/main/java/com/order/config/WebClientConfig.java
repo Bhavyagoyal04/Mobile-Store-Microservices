@@ -19,7 +19,7 @@ public class WebClientConfig {
                 .clientConnector(
                         new org.springframework.http.client.reactive.ReactorClientHttpConnector(
                                 reactor.netty.http.client.HttpClient.create()
-                                        .responseTimeout(Duration.ofSeconds(5)) // 🔥 timeout
+                                        .responseTimeout(Duration.ofSeconds(5)) // timeout
                         )
                 );
     }

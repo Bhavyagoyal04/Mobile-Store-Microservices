@@ -6,7 +6,7 @@ public class ErrorResponse {
 
     private String message;
     private int status;
-    private String error; // 🔥 REQUIRED
+    private String error; // REQUIRED
     private LocalDateTime timestamp;
 
     public ErrorResponse(String message, int status, String error) {

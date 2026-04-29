@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface MobileRepository extends JpaRepository<Mobile, Long> {
 
-    // ✅ Find by brand + model
+    // Find by brand + model
     Optional<Mobile> findByBrandAndModel(String brand, String model);
 
-    // ✅ Prevent duplicate mobiles
+    // Prevent duplicate mobiles
     boolean existsByBrandAndModel(String brand, String model);
 }

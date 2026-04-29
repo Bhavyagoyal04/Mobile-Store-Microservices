@@ -14,7 +14,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchange -> exchange
-                        .anyExchange().permitAll() // 🔥 allow everything
+                        .anyExchange().permitAll() // allow everything
                 )
                 .build();
     }

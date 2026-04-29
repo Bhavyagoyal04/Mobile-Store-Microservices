@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface BillRepository extends JpaRepository<Bill, Long> {
 
-    // ✅ Find bill by order
+    // Find bill by order
     List<Bill> findByOrderId(Long orderId);
 
-    // ✅ Find bills by customer name
+    // Find bills by customer name
     List<Bill> findByCustomerName(String customerName);
 
-    // ✅ Filter by status (GENERATED, PAID, etc.)
+    // Filter by status (GENERATED, PAID, etc.)
     List<Bill> findByStatus(String status);
 
-    // ✅ Combined filter (advanced)
+    // Combined filter (advanced)
     List<Bill> findByCustomerNameAndStatus(String customerName, String status);
 }
