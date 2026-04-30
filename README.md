@@ -200,18 +200,32 @@ The gateway validates the JWT on every request to protected routes using a share
 
 ```
 mobile-store-microservices/
-├── api-gateway/
-├── auth-service/
-├── customer-service/
-├── mobile-service/
-├── order-service/
-├── billing-service/
-├── service-registry/
-└── frontend/
+├── service-registry/          # Eureka server
+├── api-gateway/               # Gateway + JWT filter
+│   └── com/gateway/
+│       ├── config/            # Route definitions
+│       └── security/          # JwtFilter, JwtUtil, SecurityConfig
+├── auth-service/              # Register + Login + JWT generation
+│   └── com/auth/
+│       ├── controller/
+│       ├── service/
+│       ├── model/
+│       ├── repository/
+│       ├── security/          # JwtUtil
+│       ├── dto/
+│       └── exception/
+├── customer-service/          # Customer CRUD
+├── mobile-service/            # Mobile inventory CRUD
+├── order-service/             # Order management
+│   └── com/order/
+│       └── config/            # WebClientConfig (load-balanced)
+├── billing-service/           # Bill generation
+│   └── com/billing/
+│       └── dto/               # Mobile, Order (from other services)
+└── frontend/                  # React + Vite SPA
     └── src/
-        ├── components/
-        ├── pages/
-        └── lib/
-            ├── api.js       # API client
-            └── auth.jsx     # Auth context
+        ├── lib/               # api.js, auth.jsx, utils.js
+        ├── components/        # AppSidebar, PageHeader, shadcn ui/
+        └── pages/             # Login, Register, Dashboard, Mobiles,
+                               # Customers, Orders, Billing, NotFound
 ```
